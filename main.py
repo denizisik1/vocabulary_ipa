@@ -79,14 +79,14 @@ class Scraper:
         try:
             self.driver.get(url)
             time.sleep(1)
-            # ipa = self.driver.find_element(By.CLASS_NAME, BASE_URL_ELEMENT_NAME).text # TODO: Decide.
-            ipa = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.BASE_URL_ELEMENT_NAME))).text
+            ipa = self.driver.find_element(By.CLASS_NAME, BASE_URL_ELEMENT_NAME).text # TODO: Decide.
+            # ipa = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.BASE_URL_ELEMENT_NAME))).text
             return ipa, url
         except (NoSuchElementException, TimeoutException):
             try:
                 self.driver.get(backup_url)
-                # ipa = self.driver.find_element(By.CLASS_NAME, BACKUP_BASE_URL_ELEMENT_NAME).text # TODO: Decide.
-                ipa = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.BACKUP_BASE_URL_ELEMENT_NAME))).text
+                ipa = self.driver.find_element(By.CLASS_NAME, BACKUP_BASE_URL_ELEMENT_NAME).text # TODO: Decide.
+                # ipa = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.BACKUP_BASE_URL_ELEMENT_NAME))).text
                 return ipa, backup_url
             except (NoSuchElementException, TimeoutException):
                 return None, None
