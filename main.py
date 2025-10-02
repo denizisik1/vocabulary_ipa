@@ -1,7 +1,12 @@
 """
+Collins may be using /ipa/ and not [ipa]
 Read selenium-stealth's source code.
 Reverse backup and base.
 Git main, development, testing branches.
+Open wiki page for Help:IPA/Standard German
+
+https://docs.google.com/spreadsheets/d/1r9HwvVpo35MFxnJ_5W6RKlDfx5VzmQVcnpJTgrNUY9I/edit?gid=0#gid=0
+
 """
 import csv
 import os
