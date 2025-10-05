@@ -1,4 +1,7 @@
 """
+Process will not be managed by systemd, therefore "restart upon crash"
+feature must be implemeted here.
+
 Collins may be using /ipa/ and not [ipa]
 Read selenium-stealth's source code.
 Reverse backup and base.
@@ -6,8 +9,8 @@ Git main, development, testing branches.
 Open wiki page for Help:IPA/Standard German
 
 https://docs.google.com/spreadsheets/d/1r9HwvVpo35MFxnJ_5W6RKlDfx5VzmQVcnpJTgrNUY9I/edit?gid=0#gid=0
-
 """
+
 import csv
 import os
 import random
