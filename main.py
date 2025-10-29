@@ -1,13 +1,5 @@
 """
-Process will not be managed by systemd, therefore "restart upon crash"
-feature must be implemeted here.
-
-Collins may be using /ipa/ and not [ipa]
-Read selenium-stealth's source code.
-Reverse backup and base.
-Git main, development, testing branches.
 Open wiki page for Help:IPA/Standard German
-
 https://docs.google.com/spreadsheets/d/1r9HwvVpo35MFxnJ_5W6RKlDfx5VzmQVcnpJTgrNUY9I/edit?gid=0#gid=0
 """
 
@@ -15,6 +7,9 @@ import csv
 import os
 import random
 import time
+import signal
+import sys
+import sqlite3
 
 import undetected_chromedriver as uc
 
@@ -27,6 +22,14 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+def signal_handler(sig, frame):
+    print('Captured <C-c>, exiting...')
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
+connection = sqlite3.connect('pronunciations.db')
+cursor = connection.cursor()
 
 class ConfigLoader:
     def __init__(self):
@@ -74,6 +77,7 @@ class Scraper:
         options.add_argument(f"--user-agent={random_user_agent}")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--headless=new")
 
         self.driver = uc.Chrome(options=options, headless=config.ENV == "production")
         self.BASE_URL = config.BASE_URL
@@ -89,6 +93,10 @@ class Scraper:
             time.sleep(1)
             ipa = self.driver.find_element(By.CLASS_NAME, BASE_URL_ELEMENT_NAME).text # TODO: Decide.
             # ipa = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.BASE_URL_ELEMENT_NAME))).text
+
+            # element_present = EC.presence_of_element_located((By.ID, 'element_id'))
+            # WebDriverWait(driver, 5).until(element_present)
+
             return ipa, url
         except (NoSuchElementException, TimeoutException):
             try:
@@ -104,6 +112,12 @@ class Scraper:
 
 
 class App:
+    def testing_database(self):
+        cursor.execute('''CREATE TABLE IF NOT EXISTS pronunciations
+                          (word TEXT PRIMARY KEY, ipa TEXT, source_url TEXT)''')
+        connection.commit()
+        print("Database initialized.")
+
     def __init__(self):
         self.config = ConfigLoader()
         print(f"Running in {self.config.ENV} mode.")
@@ -111,20 +125,25 @@ class App:
         self.scraper = Scraper(self.config)
 
     def run(self):
-        files = self.csv_reader.get_files()
-        for file in files:
-            for article, word, meaning in self.csv_reader.read_file(file):
-                print(article)
-                print(word)
-                print(meaning)
+        self.testing_database()
+        print("Press <C-c> to exit.")
+        time.sleep(999999)
+        try:
+            files = self.csv_reader.get_files()
+            for file in files:
+                for article, word, meaning in self.csv_reader.read_file(file):
+                    print(article)
+                    print(word)
+                    print(meaning)
 
-                ipa, source_url = self.scraper.get_pronunciation(word)
-                if ipa:
-                    print(ipa)
-                    print(source_url)
-                print()
-        self.scraper.close()
-
+                    ipa, source_url = self.scraper.get_pronunciation(word)
+                    if ipa:
+                        print(ipa)
+                        print(source_url)
+                    print()
+            self.scraper.close()
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     app = App()
