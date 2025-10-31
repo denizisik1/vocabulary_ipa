@@ -9,9 +9,10 @@ __pycache__/
 *.sqlite
 *.sqlite3
 *.db
-*.pyc
 
 .env
 .env.production
 .env.development
 .env.testing
+
+downloaded_files/

@@ -71,13 +71,10 @@ class CSVReader:
 class Scraper:
     def __init__(self, config):
         options = uc.ChromeOptions()
-        if config.ENV == "production":
-            options.add_argument("--headless=new")
         random_user_agent = random.choice(config.user_agents)
         options.add_argument(f"--user-agent={random_user_agent}")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--headless=new")
 
         self.driver = uc.Chrome(options=options, headless=config.ENV == "production")
         self.BASE_URL = config.BASE_URL
