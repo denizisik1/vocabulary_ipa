@@ -1,7 +1,9 @@
 """
 Open wiki page for Help:IPA/Standard German
-https://docs.google.com/spreadsheets/d/1r9HwvVpo35MFxnJ_5W6RKlDfx5VzmQVcnpJTgrNUY9I/edit?gid=0#gid=0
+
 """
+
+""" There are other alternatives for engines like nodriver or zendriver. """
 
 import csv
 import os
