@@ -26,11 +26,4 @@ if __name__ == "__main__":
     print(f"Scraping URL: {args.url} for element: {args.base_url_element}")
     import time; time.sleep(0)
 
-
-
-
-
-
-
-    # scraper = Scrape()
-    # scraper.seleniumbase()
+""" Use playwright instead of seleniumbase. """
