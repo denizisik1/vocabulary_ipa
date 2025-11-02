@@ -1,32 +1,30 @@
 """ This is a test file for checking connectivity to a given URL using Playwright. """
-import sys
-import signal
+import re
+import pytest
+from playwright.sync_api import Page, expect
 from playwright.sync_api import sync_playwright
-import argparse
 
-""" Handle <C-c> gracefully to exit the program. """
-def signal_handler(sig, frame):
-    print('Captured <C-c>, exiting...')
-    sys.exit(0)
-signal.signal(signal.SIGINT, signal_handler)
+def test_has_title(page: Page):
+    page.goto("https://playwright.dev/")
 
-""" Test connectivity to a given URL using Playwright. """
-def test_connectivity(url):
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        try:
-            page.goto(url, timeout=10000)  # 10 seconds timeout
-            print(f"Successfully connected to {url}")
-        except Exception as e:
-            print(f"Failed to connect to {url}: {e}")
-        finally:
-            browser.close()
+    # Expect a title "to contain" a substring.
+    expect(page).to_have_title(re.compile("Playwright"))
+    print("Title verified successfully.")
+
+def test_get_started_link(page: Page):
+    page.goto("https://playwright.dev/")
+
+    # Click the get started link.
+    page.get_by_role("link", name="Get started").click()
+
+    # Expects page to have a heading with the name of Installation.
+    expect(page.get_by_role("heading", name="Installation")).to_be_visible()
+    print("Get started link verified successfully.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Test Connectivity to a URL")
-    parser.add_argument("url", help="The URL to test connectivity")
-    args = parser.parse_args()
-    print(f"Testing connectivity to URL: {args.url}")
-    test_connectivity(args.url)
-    import time; time.sleep(0)
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)
+        page = browser.new_page()
+        test_has_title(page)
+        test_get_started_link(page)
+        browser.close()
