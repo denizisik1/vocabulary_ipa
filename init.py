@@ -25,7 +25,7 @@ args = arg_parser.parse_arguments()
 if args.random and args.language:
     try:
         random_word_generator = RandomWord(args.language)
-        random_word = random_word_generator.get_random_word()
+        random_word_generator.get_random_word()
     except ValueError as e:
         print(e)
 

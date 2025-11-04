@@ -10,23 +10,9 @@ class RandomWord:
             raise ValueError(f"Language '{self.language}' not found in the database.")
         random_word = self.db.retrieve_random_word(self.language)
 
-        # Replace this with ncurses like TUI later.
-        final_output = ""
-        if random_word:
-            headers = ["Article", "Word", "Meaning", "Pronunciation"]
-            max_lengths = [len(header) for header in headers]
+        article = (random_word[0] if random_word[0] is not None else "").ljust(40)[:40]
+        word = (random_word[1] if random_word[1] is not None else "").ljust(40)[:40]
+        meaning = (random_word[2] if random_word[2] is not None else "").ljust(40)[:40]
+        pronunciation = (random_word[3] if random_word[3] is not None else "").ljust(40)[:40]
 
-            for i, value in enumerate(random_word):
-                if value is not None:
-                    max_lengths[i] = max(max_lengths[i], len(str(value)))
-
-            header_line = "\t".join(header.ljust(max_lengths[i]) for i, header in enumerate(headers))
-            separator_line = "\t".join("-" * max_lengths[i] for i in range(len(headers)))
-            value_line = "\t".join(str(value).ljust(max_lengths[i]) if value is not None else "N/A".ljust(max_lengths[i]) for i, value in enumerate(random_word))
-
-            final_output += header_line + "\n"
-            final_output += separator_line + "\n"
-            final_output += value_line + "\n"
-        print(final_output)
-
-        return self.db.retrieve_random_word(self.language)
+        print(f"{article} {word} {meaning} {pronunciation}")
