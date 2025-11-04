@@ -16,6 +16,11 @@ class ArgumentParsing:
                                  type=str,
                                  help="Specify the language for the random word")
 
+        self.parser.add_argument("-n",
+                                 "--number",
+                                 type=int,
+                                 help="Number of random words to retrieve")
+
         self.parser.add_argument("-a",
                                  "--analyze",
                                  action="store_true",

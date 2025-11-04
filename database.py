@@ -14,15 +14,15 @@ class PronunciationDatabase:
                             (language,))
         return self.cursor.fetchone() is not None
 
-    def retrieve_random_word(self, language):
+    def retrieve_random_word(self, language, number=1):
         """ Retrieve a random word along with its meaning and pronunciation for the specified language. """
         self.cursor.execute("SELECT article, word, meaning, pronunciation "
                             f"FROM {language} "
                             "ORDER BY RANDOM() "
-                            "LIMIT 1")
+                            f"LIMIT {number}")
 
         result = self.cursor.fetchall()
-        return result[0] if result else None
+        return result if result else None
 
     def analyze_data(self, language):
         """ Return the number of rows lacking pronunciation data for the specified language. """

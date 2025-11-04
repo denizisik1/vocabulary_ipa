@@ -22,9 +22,9 @@ arg_parser = ArgumentParsing()
 args = arg_parser.parse_arguments()
 # print("Parsed command-line arguments:", args)
 
-if args.random and args.language:
+if args.random and args.language and args.number:
     try:
-        random_word_generator = RandomWord(args.language)
+        random_word_generator = RandomWord(args.language, args.number)
         random_word_generator.get_random_word()
     except ValueError as e:
         print(e)
