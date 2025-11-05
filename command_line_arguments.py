@@ -60,7 +60,7 @@ class ArgumentParsing:
                                  action="store_true",
                                  help="Confirm and clean incomplete data.")
 
-        self.parser.add_argument("-i",
+        self.parser.add_argument("-f",
                                  "--input",
                                  type=str,
                                  help="Input file for data.")
@@ -69,6 +69,12 @@ class ArgumentParsing:
                                  "--output",
                                  type=str,
                                  help="Output file for data.")
+
+        # Provide reference to https://en.wikipedia.org/wiki/Help:IPA/Standard_German
+        self.parser.add_argument("-i",
+                                 "--ipa-wikipedia",
+                                 action="store_true",
+                                 help="Use IPA Wikipedia as the data source.")
 
         self.parser.add_argument("-v",
                                  "--verbose",
