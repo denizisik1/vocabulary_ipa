@@ -1,3 +1,4 @@
+import logging
 from database import PronunciationDatabase
 
 class DataAnalyzer:
@@ -10,5 +11,5 @@ class DataAnalyzer:
         if not self.db.check_for_language(self.language):
             raise ValueError(f"Language '{self.language}' not found in the database.")
         count = self.db.analyze_data(self.language)
-        print(f"Number of entries lacking pronunciation data in '{self.language}': {count}")
+        logging.info(f"Number of entries without pronunciation data for '{self.language}': {count}")
         return self.db.analyze_data(self.language)

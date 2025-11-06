@@ -10,14 +10,14 @@ from environment import select_env_file
 
 # """ Handle <C-c> gracefully to exit the program. """
 # def signal_handler(sig, frame):
-#     print('Captured <C-c>, exiting...')
+#     logger.info("Program interrupted. Exiting gracefully...")
 #     sys.exit(0)
 # signal.signal(signal.SIGINT, signal_handler)
 
 # """ Load environment variables based on the current Git branch. """
 # env_file = select_env_file()
 # load_dotenv(env_file)
-# print(f"Environment variables loaded from {env_file}")
+# logger.info(f"Loaded environment variables from {env_file}")
 # logger = Logger()
 
 # """ Scrape a given URL for a specified element using Playwright. """
@@ -36,7 +36,7 @@ from environment import select_env_file
 #                 content = page.query_selector(self.base_url_element)
 #                 if content:
 #                     logger.info(f"Element found: {self.base_url_element}")
-#                     print(content.inner_text())
+#                     logger.info(f"Content: {content.inner_text()}")
 #                 else:
 #                     logger.warning(f"Element not found: {self.base_url_element}")
 #             except Exception as e:

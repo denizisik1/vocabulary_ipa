@@ -1,3 +1,4 @@
+import logging
 from database import PronunciationDatabase
 
 class RandomWord:
@@ -22,7 +23,7 @@ class RandomWord:
         rows = self.db.retrieve_random_word(self.language, self.number)
 
         if rows is None:
-            print("No words found in the database.")
+            logging.info("No data retrieved from the database.")
             return
 
         # Normalize single-row return to an iterable of rows.
