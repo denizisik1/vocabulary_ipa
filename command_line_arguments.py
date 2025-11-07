@@ -13,112 +13,112 @@ class ArgumentParsing:
         self.parser.add_argument("-r",
                                  "--random",
                                  action="store_true",
-                                 help="      Retrieve random word(s) with pronunciation.")
+                                 help="         Retrieve random word(s) with pronunciation. (Requires -l and -n)")
 
         self.parser.add_argument("-l",
                                  "--language",
                                  type=str,
                                  metavar="",
-                                 help="[str] Specify the language for the random word.")
+                                 help="[String] Specify the language for the random word.")
 
         self.parser.add_argument("-n",
                                  "--number",
                                  type=int,
                                  metavar="",
-                                 help="[int] Number of random words to retrieve.")
+                                 help="[Number] Number of random words to retrieve.")
 
         self.parser.add_argument("-a",
                                  "--analyze",
                                  action="store_true",
-                                 help="      Analyze scraped data.")
+                                 help="         Analyze scraped data.                       (Requires -l)")
 
         self.parser.add_argument("-s",
                                  "--scrape",
                                  action="store_true",
-                                 help="      Scrape data from the web.")
+                                 help="         Scrape data from the web.                   (Requires -l)")
 
         self.parser.add_argument("-R",
                                  "--revert",
                                  action="store_true",
-                                 help="      Revert to previous data.")
+                                 help="         Revert to previous data.                    (Requires -l)")
 
         self.parser.add_argument("-b",
                                  "--backup",
                                  action="store_true",
-                                 help="      Backup current data.")
+                                 help="         Backup current data.")
 
         self.parser.add_argument("-g",
                                  "--good",
                                  action="store_true",
-                                 help="      Mark data as good.")
+                                 help="         Mark data as good.                          (Requires -l)")
 
         self.parser.add_argument("-C",
                                  "--clean",
                                  action="store_true",
-                                 help="      Clean incomplete data.")
+                                 help="         Clean incomplete data.                      (Requires -l)")
 
         self.parser.add_argument("-c",
                                  "--confirm-clean",
                                  action="store_true",
-                                 help="      Confirm and clean incomplete data.")
+                                 help="         Confirm and clean incomplete data.          (Requires -l)")
 
         self.parser.add_argument("-f",
                                  "--input",
                                  type=str,
                                  metavar="",
-                                 help="[str] Input file for data.")
+                                 help="[String] Input file for data.                        (Requires -l)")
 
         self.parser.add_argument("-o",
                                  "--output",
                                  type=str,
                                  metavar="",
-                                 help="[str] Output file for data.")
+                                 help="[String] Output file for data.                       (Requires -l)")
 
         # Provide reference to https://en.wikipedia.org/wiki/Help:IPA/Standard_German
         self.parser.add_argument("-i",
                                  "--ipa-wikipedia",
                                  action="store_true",
-                                 help="      Use IPA Wikipedia as the data source.")
+                                 help="         Use IPA Wikipedia as the data source.")
 
         self.parser.add_argument("-d",
                                  "--debug",
                                  action="store_true",
-                                 help="      Enable debug mode.")
+                                 help="         Enable debug mode.")
 
         self.parser.add_argument("-V",
                                  "--version",
                                  action="version",
                                  version="Language Pronunciation Scraper 1.0",
-                                 help="      Show program version and exit.")
+                                 help="         Show program version and exit.")
 
         self.parser.add_argument("-e",
                                  "--list-languages",
                                  action="store_true",
-                                 help="      List all available languages in the database.")
+                                 help="         List all available languages in the database.")
 
         self.parser.add_argument("-k",
                                  "--set-language",
                                  type=str,
                                  metavar="",
-                                 help="[str] Set the default language for operations.")
+                                 help="[String] Set the default language for operations.")
 
         self.parser.add_argument("-m",
                                  "--set-number",
                                  type=int,
                                  metavar="",
-                                 help="[int] Set the default number of words to retrieve.")
+                                 help="[Number] Set the default number of words to retrieve.")
 
         group = self.parser.add_mutually_exclusive_group()
 
         group.add_argument("-q",
                            "--quiet",
                            action="store_true",
-                           help="      Suppress output messages.")
+                           help="         Suppress output messages.")
 
         group.add_argument("-v",
                            "--verbose",
                            action="store_true",
-                           help="      Enable verbose output messages.")
+                           help="         Enable verbose output messages.")
 
     def parse_arguments(self):
         return self.parser.parse_args()
