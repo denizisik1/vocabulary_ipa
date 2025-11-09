@@ -47,7 +47,6 @@ if args.analyze and args.language:
 if args.version:
     try:
         version_info = VersionInfo()
-        version_info.display()
-        print(version_info)
+        print(version_info.version)
     except Exception as e:
         logging.error(f"Error displaying version info: {e}")
