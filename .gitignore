@@ -16,3 +16,4 @@ __pycache__/
 .env.testing
 
 downloaded_files/
+.env.copilot*
