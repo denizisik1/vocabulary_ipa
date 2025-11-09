@@ -87,8 +87,7 @@ class ArgumentParsing:
 
         self.parser.add_argument("-V",
                                  "--version",
-                                 action="version",
-                                 version="Language Pronunciation Scraper 1.0",
+                                 action="store_true",
                                  help="         Show program version and exit.")
 
         self.parser.add_argument("-e",

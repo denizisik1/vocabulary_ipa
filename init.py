@@ -6,6 +6,7 @@ from environment import select_env_file
 from command_line_arguments import ArgumentParsing
 from random_word import RandomWord
 from data_analyzer import DataAnalyzer
+from version_info import VersionInfo
 
 logging.basicConfig(level=logging.INFO)
 
@@ -42,3 +43,11 @@ if args.analyze and args.language:
         analyzer.analyze_data()
     except Exception as e:
         logging.error(f"Error during data analysis: {e}")
+
+if args.version:
+    try:
+        version_info = VersionInfo()
+        version_info.display()
+        print(version_info)
+    except Exception as e:
+        logging.error(f"Error displaying version info: {e}")
