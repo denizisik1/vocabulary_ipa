@@ -2,7 +2,6 @@
 
 import sys
 import logging
-
 from pygit2 import Repository
 
 

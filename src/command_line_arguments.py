@@ -1,7 +1,6 @@
 """Module for parsing command-line arguments for the Language Pronunciation Scraper program."""
 
 import argparse
-
 from argparse import RawTextHelpFormatter
 
 

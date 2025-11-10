@@ -3,7 +3,6 @@
 """Module to retrieve and display random words from the pronunciation database."""
 
 import logging
-
 from database import PronunciationDatabase
 
 

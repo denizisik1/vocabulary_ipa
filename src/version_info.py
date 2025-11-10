@@ -2,9 +2,7 @@
 
 import os
 import logging
-
 from dotenv import load_dotenv
-
 from environment import select_env_file
 
 

@@ -3,7 +3,6 @@
 """Module to analyze pronunciation data in the database."""
 
 import logging
-
 from database import PronunciationDatabase
 
 

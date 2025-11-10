@@ -5,9 +5,7 @@
 import sys
 import signal
 import logging
-
 from dotenv import load_dotenv
-
 from environment import select_env_file
 from command_line_arguments import ArgumentParsing
 from random_word import RandomWord
