@@ -7,6 +7,7 @@ from argparse import RawTextHelpFormatter
 
 class ArgumentParsing:
     """Handle command-line argument parsing for the Language Pronunciation Scraper program."""
+
     # pylint: disable=too-few-public-methods
 
     def __init__(self):

@@ -1,4 +1,5 @@
 """Use playwright to retrieve content from a given URL."""
+
 pass
 
 # import sys

@@ -1,11 +1,12 @@
 """Module to select environment file based on current Git branch."""
 
 import sys
-import os
 import logging
 
+from pygit2 import Repository
 
-branch_name = os.popen("git rev-parse --abbrev-ref HEAD").read().strip()
+
+branch_name = Repository(".").head.shorthand
 
 
 def select_env_file():
