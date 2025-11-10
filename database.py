@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class PronunciationDatabase:
     def __init__(self):
         self.connection = sqlite3.connect('pronunciations.db')

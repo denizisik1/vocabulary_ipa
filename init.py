@@ -1,12 +1,15 @@
 import sys
 import signal
 import logging
+
 from dotenv import load_dotenv
+
 from environment import select_env_file
 from command_line_arguments import ArgumentParsing
 from random_word import RandomWord
 from data_analyzer import DataAnalyzer
 from version_info import VersionInfo
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -27,8 +30,6 @@ args = arg_parser.parse_arguments()
 if len(sys.argv) == 1:
     arg_parser.parser.print_help()
     sys.exit(0)
-
-# logging.info(f"Parsed arguments: {args}")
 
 if args.random and args.language and args.number:
     try:

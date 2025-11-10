@@ -1,7 +1,10 @@
-from dotenv import load_dotenv
-from environment import select_env_file
-import logging
 import os
+import logging
+
+from dotenv import load_dotenv
+
+from environment import select_env_file
+
 
 class VersionInfo:
     def __init__(self):

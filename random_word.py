@@ -1,5 +1,7 @@
 import logging
+
 from database import PronunciationDatabase
+
 
 class RandomWord:
     def __init__(self, language, number):

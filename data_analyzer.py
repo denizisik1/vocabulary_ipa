@@ -1,5 +1,7 @@
 import logging
+
 from database import PronunciationDatabase
+
 
 class DataAnalyzer:
     def __init__(self, language):

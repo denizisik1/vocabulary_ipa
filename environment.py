@@ -1,7 +1,9 @@
-import os
 import sys
+import os
 import logging
+
 from dotenv import load_dotenv
+
 
 branch_name = os.popen("git rev-parse --abbrev-ref HEAD").read().strip()
 

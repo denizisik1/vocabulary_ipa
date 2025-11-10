@@ -1,6 +1,8 @@
 import argparse
+
 from random_word import RandomWord
 from argparse import RawTextHelpFormatter
+
 
 class ArgumentParsing:
     def __init__(self):
