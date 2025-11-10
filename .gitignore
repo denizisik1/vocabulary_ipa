@@ -1,19 +1,11 @@
 .venv
 __pycache__/
 
-.DS_Store
-.idea/
-.vscode/
-
 *.log
-*.sqlite
-*.sqlite3
-*.db
 
 .env
 .env.production
 .env.development
 .env.testing
 
-downloaded_files/
 .env.copilot*
