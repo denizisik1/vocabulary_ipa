@@ -1,7 +1,6 @@
 """This is a test file for checking connectivity to a given URL using Playwright."""
 
 import re
-import pytest
 import logging
 
 from playwright.sync_api import Page, expect

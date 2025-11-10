@@ -1,11 +1,12 @@
-"""Use playwright instead of seleniumbase."""
+"""Use playwright to retrieve content from a given URL."""
+pass
 
-import sys
-import signal
-from playwright.sync_api import sync_playwright
-import argparse
-from dotenv import load_dotenv
-from environment import select_env_file
+# import sys
+# import signal
+# from playwright.sync_api import sync_playwright
+# import argparse
+# from dotenv import load_dotenv
+# from environment import select_env_file
 
 # from utils.logger import Logger
 

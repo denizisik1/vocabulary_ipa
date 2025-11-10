@@ -1,14 +1,15 @@
+"""Module to select environment file based on current Git branch."""
+
 import sys
 import os
 import logging
-
-from dotenv import load_dotenv
 
 
 branch_name = os.popen("git rev-parse --abbrev-ref HEAD").read().strip()
 
 
 def select_env_file():
+    """Select the appropriate .env file based on the current Git branch."""
 
     env_file = ""
 
@@ -22,7 +23,7 @@ def select_env_file():
         env_file = ".env.development"
 
     else:
-        logging.error(f"Unrecognized branch name: {branch_name}. Exiting.")
+        logging.error("Unrecognized branch name: %s Exiting.", branch_name)
         sys.exit(0)
 
     return env_file

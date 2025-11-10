@@ -1,3 +1,5 @@
+"""Module to load and display version information from environment variables."""
+
 import os
 import logging
 
@@ -7,10 +9,16 @@ from environment import select_env_file
 
 
 class VersionInfo:
+    """Class to load and display version information from environment variables."""
+    # pylint: disable=too-few-public-methods
+
     def __init__(self):
-        ENV_FILE = select_env_file()
-        load_dotenv(ENV_FILE)
+        # pylint: disable-next=invalid-name
+        ENV = select_env_file()
+        # pylint: disable-next=invalid-name
+        load_dotenv(ENV)
         self.version = os.getenv("VERSION")
 
     def display(self):
-        logging.info(f"Version: {self.version}")
+        """Display the version information."""
+        logging.info("Version: %s", self.version)

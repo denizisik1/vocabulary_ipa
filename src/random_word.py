@@ -1,9 +1,15 @@
+# pylint: disable=too-few-public-methods
+
+"""Module to retrieve and display random words from the pronunciation database."""
+
 import logging
 
 from database import PronunciationDatabase
 
 
 class RandomWord:
+    """Class to retrieve and display random words from the pronunciation database."""
+
     def __init__(self, language, number):
         self.language = language
         self.number = number
@@ -29,9 +35,7 @@ class RandomWord:
             return
 
         # Normalize single-row return to an iterable of rows.
-        if isinstance(rows, tuple) and (
-            len(rows) == 0 or not isinstance(rows[0], (list, tuple))
-        ):
+        if isinstance(rows, tuple) and (len(rows) == 0 or not isinstance(rows[0], (list, tuple))):
             rows = [rows]
 
         # Header (optional) - adjust widths as you prefer.

@@ -1,10 +1,10 @@
 .PHONY: format lint typecheck security test check
 
 format:
-	black src tests
+	black --line-length 100 src tests
 
 lint:
-	flake8 src tests
+	flake8 --max-line-length 100 src tests
 	pylint src
 
 typecheck:

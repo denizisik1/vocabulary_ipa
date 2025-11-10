@@ -1,3 +1,5 @@
+# pylint: disable=broad-exception-caught
+
 """Main entry point for the application."""
 
 import sys
@@ -25,12 +27,11 @@ def signal_handler(_sig, _frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 
-# Load environment variables based on the current Git branch.
-ENV_FILE = select_env_file()
-load_dotenv(ENV_FILE)
-# logging.info(f"Loaded environment variables from {ENV_FILE}")
+ENV = select_env_file()
+# pylint: disable-next=invalid-name
+load_dotenv(ENV)
+# pylint: disable-next=invalid-name
 
-# Parse command-line arguments.
 arg_parser = ArgumentParsing()
 args = arg_parser.parse_arguments()
 if len(sys.argv) == 1:
@@ -48,12 +49,12 @@ if args.analyze and args.language:
     try:
         analyzer = DataAnalyzer(args.language)
         analyzer.analyze_data()
-    except Exception as e:  # pylint: disable=broad-exception-caught
+    except Exception as e:
         logging.error("Error during data analysis: %s", e)
 
 if args.version:
     try:
         version_info = VersionInfo()
         print(version_info.version)
-    except Exception as e:  # pylint: disable=broad-exception-caught
+    except Exception as e:
         logging.error("Error displaying version info: %s", e)
