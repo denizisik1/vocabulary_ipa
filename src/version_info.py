@@ -8,8 +8,8 @@ from environment import select_env_file
 
 class VersionInfo:
     def __init__(self):
-        env_file = select_env_file()
-        load_dotenv(env_file)
+        ENV_FILE = select_env_file()
+        load_dotenv(ENV_FILE)
         self.version = os.getenv("VERSION")
 
     def display(self):

@@ -1,3 +1,5 @@
+"""Main entry point for the application."""
+
 import sys
 import signal
 import logging
@@ -13,18 +15,22 @@ from version_info import VersionInfo
 
 logging.basicConfig(level=logging.INFO)
 
-""" Handle <C-c> gracefully to exit the program. """
-def signal_handler(sig, frame):
+
+def signal_handler(_sig, _frame):
+    """Handle <C-c> gracefully to exit the program."""
     logging.info("Program interrupted. Exiting gracefully...")
     sys.exit(0)
+
+
 signal.signal(signal.SIGINT, signal_handler)
 
-""" Load environment variables based on the current Git branch. """
-env_file = select_env_file()
-load_dotenv(env_file)
-# logging.info(f"Loaded environment variables from {env_file}")
 
-""" Parse command-line arguments. """
+# Load environment variables based on the current Git branch.
+ENV_FILE = select_env_file()
+load_dotenv(ENV_FILE)
+# logging.info(f"Loaded environment variables from {ENV_FILE}")
+
+# Parse command-line arguments.
 arg_parser = ArgumentParsing()
 args = arg_parser.parse_arguments()
 if len(sys.argv) == 1:
@@ -36,18 +42,18 @@ if args.random and args.language and args.number:
         random_word_generator = RandomWord(args.language, args.number)
         random_word_generator.get_random_word()
     except ValueError as e:
-        logging.error(f"ValueError: {e}")
+        logging.error("Value Error: %s", e)
 
 if args.analyze and args.language:
     try:
         analyzer = DataAnalyzer(args.language)
         analyzer.analyze_data()
-    except Exception as e:
-        logging.error(f"Error during data analysis: {e}")
+    except Exception as e:  # pylint: disable=broad-exception-caught
+        logging.error("Error during data analysis: %s", e)
 
 if args.version:
     try:
         version_info = VersionInfo()
         print(version_info.version)
-    except Exception as e:
-        logging.error(f"Error displaying version info: {e}")
+    except Exception as e:  # pylint: disable=broad-exception-caught
+        logging.error("Error displaying version info: %s", e)

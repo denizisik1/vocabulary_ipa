@@ -1,4 +1,4 @@
-""" This is a test file for checking connectivity to a given URL using Playwright. """
+"""This is a test file for checking connectivity to a given URL using Playwright."""
 
 import re
 import pytest
@@ -14,6 +14,7 @@ def test_has_title(page: Page):
     # Expect a title "to contain" a substring.
     expect(page).to_have_title(re.compile("Playwright"))
     logging.info("Title verified successfully.")
+
 
 def test_get_started_link(page: Page):
     page.goto("https://playwright.dev/")

@@ -1,4 +1,4 @@
-""" Use playwright instead of seleniumbase. """
+"""Use playwright instead of seleniumbase."""
 
 import sys
 import signal
@@ -6,6 +6,7 @@ from playwright.sync_api import sync_playwright
 import argparse
 from dotenv import load_dotenv
 from environment import select_env_file
+
 # from utils.logger import Logger
 
 # """ Handle <C-c> gracefully to exit the program. """
@@ -15,9 +16,9 @@ from environment import select_env_file
 # signal.signal(signal.SIGINT, signal_handler)
 
 # """ Load environment variables based on the current Git branch. """
-# env_file = select_env_file()
-# load_dotenv(env_file)
-# logger.info(f"Loaded environment variables from {env_file}")
+# ENV_FILE = select_env_file()
+# load_dotenv(ENV_FILE)
+# logger.info(f"Loaded environment variables from {ENV_FILE}")
 # logger = Logger()
 
 # """ Scrape a given URL for a specified element using Playwright. """
