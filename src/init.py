@@ -25,10 +25,8 @@ def signal_handler(_sig, _frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 
-ENV = select_env_file()
-# pylint: disable-next=invalid-name
-load_dotenv(ENV)
-# pylint: disable-next=invalid-name
+env = select_env_file()  # pylint: disable=invalid-name
+load_dotenv(env)
 
 arg_parser = ArgumentParsing()
 args = arg_parser.parse_arguments()

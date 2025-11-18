@@ -12,10 +12,8 @@ class VersionInfo:
     # pylint: disable=too-few-public-methods
 
     def __init__(self):
-        # pylint: disable-next=invalid-name
-        ENV = select_env_file()
-        # pylint: disable-next=invalid-name
-        load_dotenv(ENV)
+        env = select_env_file()  # pylint: disable=invalid-name
+        load_dotenv(env)
         self.version = os.getenv("VERSION")
 
     def display(self):
