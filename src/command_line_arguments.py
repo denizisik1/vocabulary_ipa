@@ -115,7 +115,7 @@ class ArgumentParsing:
         )
 
         self.parser.add_argument(
-            "-V",
+            "-v",
             "--version",
             action="store_true",
             help="         Show program version and exit.",
@@ -154,7 +154,6 @@ class ArgumentParsing:
         )
 
         group.add_argument(
-            "-v",
             "--verbose",
             action="store_true",
             help="         Enable verbose output messages.",

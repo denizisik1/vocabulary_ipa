@@ -40,3 +40,9 @@ class PronunciationDatabase:
         )
         result = self.cursor.fetchone()
         return result[0] if result else 0
+
+    def list_available_languages(self):
+        """List all available language tables in the database."""
+        self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        tables = self.cursor.fetchall()
+        return [table[0] for table in tables if table[0].isalpha()]

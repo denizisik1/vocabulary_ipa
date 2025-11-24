@@ -11,6 +11,7 @@ from command_line_arguments import ArgumentParsing
 from random_word import RandomWord
 from data_analyzer import DataAnalyzer
 from version_info import VersionInfo
+from list_languages import ListLanguages
 
 
 logging.basicConfig(level=logging.INFO)
@@ -54,3 +55,10 @@ if args.version:
         print(version_info.version)
     except Exception as e:
         logging.error("Error displaying version info: %s", e)
+
+if args.list_languages:
+    try:
+        language_lister = ListLanguages()
+        language_lister.list_languages()
+    except Exception as e:
+        logging.error("Error listing languages: %s", e)
