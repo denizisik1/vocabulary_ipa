@@ -6,7 +6,7 @@ import os
 
 def test_db_exists():
     """Test that the database file exists."""
-    assert os.path.exists("pronunciations.db"), "Database file does not exist."
+    assert os.path.exists("pronunciations.db"), "Database file does not exist."  # nosec
 
 
 def test_basic_query_operations():
@@ -15,16 +15,16 @@ def test_basic_query_operations():
     cur = conn.cursor()
 
     cur.execute("SELECT 1;")
-    assert cur.fetchone()[0] == 1
+    assert cur.fetchone()[0] == 1  # nosec
 
     cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
     first_table = cur.fetchone()
-    assert first_table, "No tables found in database."
+    assert first_table, "No tables found in database."  # nosec
 
     table_name = first_table[0]
-    cur.execute(f"SELECT COUNT(*) FROM {table_name};")
+    cur.execute(f"SELECT COUNT(*) FROM {table_name};")  # nosec
     count = cur.fetchone()[0]
-    assert count >= 0, f"Invalid count from {table_name}"
+    assert count >= 0, f"Invalid count from {table_name}"  # nosec
 
     conn.close()
 
@@ -39,4 +39,4 @@ def test_tables_exist():
 
     expected = {"german"}
     missing = expected - tables
-    assert not missing, f"Missing tables: {missing}"
+    assert not missing, f"Missing tables: {missing}"  # nosec

@@ -1,19 +1,20 @@
+# To prevent confusion with filenames, all targets are declared as phony.
 .PHONY: format lint typecheck security test check
 
-format:
+a format:
 	black --line-length 100 src tests
 
-lint:
+b lint:
 	flake8 --max-line-length 100 src tests
 	pylint src tests
 
-typecheck:
+c typecheck:
 	mypy src tests
 
-security:
+d security:
 	bandit -r src tests
 
-test:
+e test:
 	pytest -v --maxfail=1 --disable-warnings --cov=src --cov-report=term-missing
 
-check: format lint typecheck security test
+x check: format lint typecheck security test
