@@ -1,2 +1,0 @@
-Uniformity across using f{} vs %s, var
-Tests within src/
