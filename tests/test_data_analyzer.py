@@ -2,7 +2,6 @@
 
 import sys
 import pytest
-from unittest.mock import Mock, patch
 
 sys.path.insert(0, "src")
 
@@ -37,13 +36,12 @@ class TestDataAnalyzer:
             analyzer.analyze_data()
         assert "not found in the database" in str(excinfo.value)
 
-    @patch("data_analyzer.PronunciationDatabase")
-    def test_analyze_data_mocked(self, mock_db_class):
+    def test_analyze_data_mocked(self, mocker):
         """Test analyzing data with a mocked database."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.analyze_data.return_value = 42
-        mock_db_class.return_value = mock_db
+        mocker.patch("data_analyzer.PronunciationDatabase", return_value=mock_db)
 
         analyzer = DataAnalyzer("german")
         result = analyzer.analyze_data()
@@ -52,12 +50,11 @@ class TestDataAnalyzer:
         mock_db.check_for_language.assert_called_once_with("german")
         mock_db.analyze_data.assert_called_with("german")
 
-    @patch("data_analyzer.PronunciationDatabase")
-    def test_analyze_data_language_not_found_mocked(self, mock_db_class):
+    def test_analyze_data_language_not_found_mocked(self, mocker):
         """Test that ValueError is raised when language is not found."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = False
-        mock_db_class.return_value = mock_db
+        mocker.patch("data_analyzer.PronunciationDatabase", return_value=mock_db)
 
         analyzer = DataAnalyzer("spanish")
         with pytest.raises(ValueError) as excinfo:

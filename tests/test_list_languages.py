@@ -1,8 +1,6 @@
 """Tests for the ListLanguages class."""
 
 import sys
-import pytest
-from unittest.mock import Mock, patch
 
 sys.path.insert(0, "src")
 
@@ -17,12 +15,11 @@ class TestListLanguages:
         ll = ListLanguages()
         assert ll.db is not None
 
-    @patch("list_languages.PronunciationDatabase")
-    def test_list_languages_with_available_languages(self, mock_db_class):
+    def test_list_languages_with_available_languages(self, mocker):
         """Test listing languages when languages are available."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.list_available_languages.return_value = ["german", "spanish", "french"]
-        mock_db_class.return_value = mock_db
+        mocker.patch("list_languages.PronunciationDatabase", return_value=mock_db)
 
         ll = ListLanguages()
         result = ll.list_languages()
@@ -30,12 +27,11 @@ class TestListLanguages:
         assert result == ["german", "spanish", "french"]
         mock_db.list_available_languages.assert_called_once()
 
-    @patch("list_languages.PronunciationDatabase")
-    def test_list_languages_with_no_languages(self, mock_db_class, capsys):
+    def test_list_languages_with_no_languages(self, mocker, capsys):
         """Test listing languages when no languages are available."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.list_available_languages.return_value = []
-        mock_db_class.return_value = mock_db
+        mocker.patch("list_languages.PronunciationDatabase", return_value=mock_db)
 
         ll = ListLanguages()
         result = ll.list_languages()
@@ -52,12 +48,11 @@ class TestListLanguages:
         if result:
             assert "german" in result
 
-    @patch("list_languages.PronunciationDatabase")
-    def test_list_languages_prints_each_language(self, mock_db_class, capsys):
+    def test_list_languages_prints_each_language(self, mocker, capsys):
         """Test that each language is printed."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.list_available_languages.return_value = ["german", "spanish"]
-        mock_db_class.return_value = mock_db
+        mocker.patch("list_languages.PronunciationDatabase", return_value=mock_db)
 
         ll = ListLanguages()
         ll.list_languages()
