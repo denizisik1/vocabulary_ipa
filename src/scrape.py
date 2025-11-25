@@ -2,26 +2,6 @@
 
 pass
 
-# import sys
-# import signal
-# from playwright.sync_api import sync_playwright
-# import argparse
-# from dotenv import load_dotenv
-# from environment import select_env_file
-
-# from utils.logger import Logger
-
-# """ Handle <C-c> gracefully to exit the program. """
-# def signal_handler(sig, frame):
-#     logger.info("Program interrupted. Exiting gracefully...")
-#     sys.exit(0)
-# signal.signal(signal.SIGINT, signal_handler)
-
-# """ Load environment variables based on the current Git branch. """
-# ENV_FILE = select_env_file()
-# load_dotenv(ENV_FILE)
-# logger.info(f"Loaded environment variables from {ENV_FILE}")
-# logger = Logger()
 
 # """ Scrape a given URL for a specified element using Playwright. """
 # class Scrape:
