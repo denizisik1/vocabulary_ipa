@@ -1,29 +1,6 @@
-"""Module to select environment file based on current Git branch."""
-
-import sys
-import logging
-from pygit2 import Repository
-
-
-branch_name = Repository(".").head.shorthand
+"""Module to select environment file."""
 
 
 def select_env_file():
-    """Select the appropriate .env file based on the current Git branch."""
-
-    env_file = ""
-
-    if branch_name == "main":
-        env_file = ".env.production"
-
-    elif branch_name == "testing":
-        env_file = ".env.testing"
-
-    elif branch_name == "development":
-        env_file = ".env.development"
-
-    else:
-        logging.error("Unrecognized branch name: %s Exiting.", branch_name)
-        sys.exit(0)
-
-    return env_file
+    """Return the path to the .env file."""
+    return ".env"
