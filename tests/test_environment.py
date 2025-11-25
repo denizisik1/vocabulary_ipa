@@ -17,8 +17,6 @@ class TestSelectEnvFile:
         mock_repo.head.shorthand = "main"
         mock_repo_class.return_value = mock_repo
 
-        # Need to reimport to pick up the mock
-        import importlib
         import environment
 
         # Patch the module-level branch_name

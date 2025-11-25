@@ -22,7 +22,7 @@ class TestPronunciationDatabase:
     def test_check_for_language_existing(self):
         """Test checking for an existing language table."""
         db = PronunciationDatabase()
-        # German is expected to exist based on test_database_connection.py
+        # The german table is expected to exist in the database
         result = db.check_for_language("german")
         assert result is True
 
