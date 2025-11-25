@@ -2,8 +2,6 @@
 
 import sys
 import pytest
-from unittest.mock import Mock, patch
-from io import StringIO
 
 sys.path.insert(0, "src")
 
@@ -27,15 +25,14 @@ class TestRandomWord:
             rw.get_random_word()
         assert "not found in the database" in str(excinfo.value)
 
-    @patch("random_word.PronunciationDatabase")
-    def test_get_random_word_with_valid_language_mocked(self, mock_db_class):
+    def test_get_random_word_with_valid_language_mocked(self, mocker):
         """Test getting random word with a mocked database."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = [
             ("der", "Hund", "dog", "[hʊnt]"),
         ]
-        mock_db_class.return_value = mock_db
+        mocker.patch("random_word.PronunciationDatabase", return_value=mock_db)
 
         rw = RandomWord("german", 1)
         # Should not raise an exception
@@ -44,12 +41,11 @@ class TestRandomWord:
         mock_db.check_for_language.assert_called_once_with("german")
         mock_db.retrieve_random_word.assert_called_once_with("german", 1)
 
-    @patch("random_word.PronunciationDatabase")
-    def test_get_random_word_language_not_found_mocked(self, mock_db_class):
+    def test_get_random_word_language_not_found_mocked(self, mocker):
         """Test that ValueError is raised when language is not found."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = False
-        mock_db_class.return_value = mock_db
+        mocker.patch("random_word.PronunciationDatabase", return_value=mock_db)
 
         rw = RandomWord("spanish", 3)
         with pytest.raises(ValueError) as excinfo:
@@ -57,57 +53,53 @@ class TestRandomWord:
         assert "spanish" in str(excinfo.value)
         assert "not found in the database" in str(excinfo.value)
 
-    @patch("random_word.PronunciationDatabase")
-    def test_get_random_word_no_data_returned(self, mock_db_class):
+    def test_get_random_word_no_data_returned(self, mocker):
         """Test handling when no data is returned from the database."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = None
-        mock_db_class.return_value = mock_db
+        mocker.patch("random_word.PronunciationDatabase", return_value=mock_db)
 
         rw = RandomWord("german", 1)
         # Should handle None gracefully
         rw.get_random_word()
 
-    @patch("random_word.PronunciationDatabase")
-    def test_get_random_word_multiple_rows(self, mock_db_class):
+    def test_get_random_word_multiple_rows(self, mocker):
         """Test getting multiple random words."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = [
             ("der", "Hund", "dog", "[hʊnt]"),
             ("die", "Katze", "cat", "[katsə]"),
             ("das", "Auto", "car", "[aʊto]"),
         ]
-        mock_db_class.return_value = mock_db
+        mocker.patch("random_word.PronunciationDatabase", return_value=mock_db)
 
         rw = RandomWord("german", 3)
         rw.get_random_word()
 
         mock_db.retrieve_random_word.assert_called_once_with("german", 3)
 
-    @patch("random_word.PronunciationDatabase")
-    def test_get_random_word_with_none_values_in_row(self, mock_db_class):
+    def test_get_random_word_with_none_values_in_row(self, mocker):
         """Test handling rows with None values."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = [
             (None, "Hund", None, "[hʊnt]"),
         ]
-        mock_db_class.return_value = mock_db
+        mocker.patch("random_word.PronunciationDatabase", return_value=mock_db)
 
         rw = RandomWord("german", 1)
         # Should handle None values in row gracefully
         rw.get_random_word()
 
-    @patch("random_word.PronunciationDatabase")
-    def test_get_random_word_single_tuple_normalization(self, mock_db_class):
+    def test_get_random_word_single_tuple_normalization(self, mocker):
         """Test that a single tuple is normalized to a list of rows."""
-        mock_db = Mock()
+        mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         # Return a single tuple (not a list of tuples)
         mock_db.retrieve_random_word.return_value = ("der", "Hund", "dog", "[hʊnt]")
-        mock_db_class.return_value = mock_db
+        mocker.patch("random_word.PronunciationDatabase", return_value=mock_db)
 
         rw = RandomWord("german", 1)
         # Should normalize the single tuple to a list
