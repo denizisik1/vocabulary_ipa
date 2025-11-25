@@ -7,11 +7,14 @@ class ListLanguages:
         self.db = PronunciationDatabase()
 
     def list_languages(self):
-        languages = self.db.list_available_languages()
-        if not languages:
-            print("No languages found in the database.")
-            return
+        languages = self.db.list_available_languages() or []
 
+        if not languages:
+            logging.info("No languages found in the database.")
+            return []
+
+        logging.info("Available languages in the database:")
         for lang in languages:
-            print(f"{lang}")
+            print(lang)
+
         return languages

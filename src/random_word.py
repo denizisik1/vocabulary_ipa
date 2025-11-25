@@ -1,6 +1,3 @@
-# pylint: disable=too-few-public-methods
-
-
 import logging
 from database import PronunciationDatabase
 

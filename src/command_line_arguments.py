@@ -3,8 +3,6 @@ from argparse import RawTextHelpFormatter
 
 
 class ArgumentParsing:
-    # pylint: disable=too-few-public-methods
-
     def __init__(self):
         self.parser = argparse.ArgumentParser(
             prog="LanguagePronunciationScraper",

@@ -4,9 +4,6 @@ from dotenv import load_dotenv
 
 
 class VersionInfo:
-
-    # pylint: disable=too-few-public-methods
-
     def __init__(self):
         load_dotenv()
         self.version = os.getenv("VERSION")

@@ -8,7 +8,7 @@ b flake8:
 	flake8 --max-line-length 100 src tests
 
 c pylint:
-	pylint --disable=missing-class-docstring,missing-function-docstring,missing-module-docstring src tests
+	pylint --disable=missing-class-docstring,missing-function-docstring,missing-module-docstring,too-few-public-methods src tests
 
 d typecheck:
 	mypy src tests
