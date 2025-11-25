@@ -6,7 +6,6 @@ import sys
 import signal
 import logging
 from dotenv import load_dotenv
-from environment import select_env_file
 from command_line_arguments import ArgumentParsing
 from random_word import RandomWord
 from data_analyzer import DataAnalyzer
@@ -25,9 +24,7 @@ def signal_handler(_sig, _frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-
-env = select_env_file()  # pylint: disable=invalid-name
-load_dotenv(env)
+load_dotenv()
 
 arg_parser = ArgumentParsing()
 args = arg_parser.parse_arguments()
