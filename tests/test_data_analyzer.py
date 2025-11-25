@@ -1,5 +1,3 @@
-"""Tests for the DataAnalyzer class."""
-
 import sys
 import pytest
 
@@ -9,35 +7,27 @@ from data_analyzer import DataAnalyzer
 
 
 class TestDataAnalyzer:
-    """Tests for the DataAnalyzer class."""
-
     def test_data_analyzer_initialization(self):
-        """Test that DataAnalyzer initializes correctly."""
         analyzer = DataAnalyzer("german")
         assert analyzer.language == "german"
         assert analyzer.db is not None
 
     def test_analyze_data_with_valid_language(self):
-        """Test analyzing data with a valid language."""
         analyzer = DataAnalyzer("german")
-        # This should work if german table exists
         try:
             count = analyzer.analyze_data()
             assert isinstance(count, int)
             assert count >= 0
         except ValueError:
-            # German table might not exist in test environment
             pass
 
     def test_analyze_data_with_invalid_language(self):
-        """Test that analyzing data with an invalid language raises ValueError."""
         analyzer = DataAnalyzer("nonexistent_language_xyz")
         with pytest.raises(ValueError) as excinfo:
             analyzer.analyze_data()
         assert "not found in the database" in str(excinfo.value)
 
     def test_analyze_data_mocked(self, mocker):
-        """Test analyzing data with a mocked database."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.analyze_data.return_value = 42
@@ -51,7 +41,6 @@ class TestDataAnalyzer:
         mock_db.analyze_data.assert_called_with("german")
 
     def test_analyze_data_language_not_found_mocked(self, mocker):
-        """Test that ValueError is raised when language is not found."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = False
         mocker.patch("data_analyzer.PronunciationDatabase", return_value=mock_db)

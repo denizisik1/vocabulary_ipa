@@ -1,14 +1,11 @@
 # pylint: disable=too-few-public-methods
 
-"""Module to retrieve and display random words from the pronunciation database."""
 
 import logging
 from database import PronunciationDatabase
 
 
 class RandomWord:
-    """Class to retrieve and display random words from the pronunciation database."""
-
     def __init__(self, language, number):
         self.language = language
         self.number = number

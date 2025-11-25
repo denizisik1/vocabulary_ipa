@@ -1,20 +1,17 @@
 # pylint: disable=missing-function-docstring
 
-"""Tests for website connectivity and content verification using Playwright."""
 
 import re
 from playwright.sync_api import Page, expect
 
 
 def test_has_title(page: Page):
-    """Verify that the Playwright homepage has the correct title."""
     page.goto("https://playwright.dev/")
 
     expect(page).to_have_title(re.compile("Playwright"))
 
 
 def test_get_started_link(page: Page):
-    """Verify that the 'Get started' link navigates to the installation section."""
     page.goto("https://playwright.dev/")
 
     page.get_by_role("link", name="Get started").click()

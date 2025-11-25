@@ -1,16 +1,12 @@
-"""Tests for database connection and basic query execution using sqlite3."""
-
 import sqlite3
 import os
 
 
 def test_db_exists():
-    """Test that the database file exists."""
     assert os.path.exists("pronunciations.db"), "Database file does not exist."  # nosec
 
 
 def test_basic_query_operations():
-    """Test basic query operations on the database."""
     conn = sqlite3.connect("pronunciations.db")
     cur = conn.cursor()
 
@@ -30,7 +26,6 @@ def test_basic_query_operations():
 
 
 def test_tables_exist():
-    """Test that expected tables exist in the database."""
     conn = sqlite3.connect("pronunciations.db")
     cur = conn.cursor()
     cur.execute("SELECT name FROM sqlite_master WHERE type='table';")

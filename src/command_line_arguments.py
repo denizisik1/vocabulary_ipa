@@ -1,12 +1,8 @@
-"""Module for parsing command-line arguments for the Language Pronunciation Scraper program."""
-
 import argparse
 from argparse import RawTextHelpFormatter
 
 
 class ArgumentParsing:
-    """Handle command-line argument parsing for the Language Pronunciation Scraper program."""
-
     # pylint: disable=too-few-public-methods
 
     def __init__(self):
@@ -160,5 +156,4 @@ class ArgumentParsing:
         )
 
     def parse_arguments(self):
-        """Parse and return the command-line arguments."""
         return self.parser.parse_args()

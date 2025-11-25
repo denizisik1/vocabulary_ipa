@@ -1,7 +1,5 @@
 # pylint: disable=broad-exception-caught
 
-"""Main entry point for the application."""
-
 import sys
 import signal
 import logging
@@ -17,7 +15,6 @@ logging.basicConfig(level=logging.INFO)
 
 
 def signal_handler(_sig, _frame):
-    """Handle <C-c> gracefully to exit the program."""
     logging.info("Program interrupted. Exiting gracefully...")
     sys.exit(0)
 

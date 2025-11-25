@@ -1,5 +1,3 @@
-"""Tests for the RandomWord class."""
-
 import sys
 import pytest
 
@@ -9,24 +7,19 @@ from random_word import RandomWord
 
 
 class TestRandomWord:
-    """Tests for the RandomWord class."""
-
     def test_random_word_initialization(self):
-        """Test that RandomWord initializes correctly."""
         rw = RandomWord("german", 5)
         assert rw.language == "german"
         assert rw.number == 5
         assert rw.db is not None
 
     def test_get_random_word_with_invalid_language(self):
-        """Test that getting random word with invalid language raises ValueError."""
         rw = RandomWord("nonexistent_language_xyz", 1)
         with pytest.raises(ValueError) as excinfo:
             rw.get_random_word()
         assert "not found in the database" in str(excinfo.value)
 
     def test_get_random_word_with_valid_language_mocked(self, mocker):
-        """Test getting random word with a mocked database."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = [
@@ -42,7 +35,6 @@ class TestRandomWord:
         mock_db.retrieve_random_word.assert_called_once_with("german", 1)
 
     def test_get_random_word_language_not_found_mocked(self, mocker):
-        """Test that ValueError is raised when language is not found."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = False
         mocker.patch("random_word.PronunciationDatabase", return_value=mock_db)
@@ -54,7 +46,6 @@ class TestRandomWord:
         assert "not found in the database" in str(excinfo.value)
 
     def test_get_random_word_no_data_returned(self, mocker):
-        """Test handling when no data is returned from the database."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = None
@@ -65,7 +56,6 @@ class TestRandomWord:
         rw.get_random_word()
 
     def test_get_random_word_multiple_rows(self, mocker):
-        """Test getting multiple random words."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = [
@@ -81,7 +71,6 @@ class TestRandomWord:
         mock_db.retrieve_random_word.assert_called_once_with("german", 3)
 
     def test_get_random_word_with_none_values_in_row(self, mocker):
-        """Test handling rows with None values."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         mock_db.retrieve_random_word.return_value = [
@@ -94,7 +83,6 @@ class TestRandomWord:
         rw.get_random_word()
 
     def test_get_random_word_single_tuple_normalization(self, mocker):
-        """Test that a single tuple is normalized to a list of rows."""
         mock_db = mocker.Mock()
         mock_db.check_for_language.return_value = True
         # Return a single tuple (not a list of tuples)
