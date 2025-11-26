@@ -1,6 +1,3 @@
-# pylint: disable=missing-function-docstring
-
-
 import re
 from playwright.sync_api import Page, expect
 

@@ -1,5 +1,6 @@
 # pylint: disable=broad-exception-caught
 
+
 import sys
 import signal
 import logging
@@ -9,6 +10,7 @@ from random_word import RandomWord
 from data_analyzer import DataAnalyzer
 from version_info import VersionInfo
 from list_languages import ListLanguages
+from retrieve_pronunciation import RetrievePronunciation
 
 
 logging.basicConfig(level=logging.INFO)
@@ -56,3 +58,10 @@ if args.list_languages:
         language_lister.list_languages()
     except Exception as e:
         logging.error("Error listing languages: %s", e)
+
+if args.retrieve_pronunciation and args.word:
+    try:
+        retriever = RetrievePronunciation()
+        retriever.retrieve_pronunciation(args.word)
+    except Exception as e:
+        logging.error("Error retrieving pronunciation: %s", e)

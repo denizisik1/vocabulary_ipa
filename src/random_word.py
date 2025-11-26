@@ -27,11 +27,9 @@ class RandomWord:
             logging.info("No data retrieved from the database.")
             return
 
-        # Normalize single-row return to an iterable of rows.
         if isinstance(rows, tuple) and (len(rows) == 0 or not isinstance(rows[0], (list, tuple))):
             rows = [rows]
 
-        # Header (optional) - adjust widths as you prefer.
         col_w = 40
         print(
             f"{'article'.ljust(col_w)} {'word'.ljust(col_w)} "
@@ -40,7 +38,6 @@ class RandomWord:
         print("-" * (col_w * 4 + 3))
 
         for row in rows:
-            # Expecting row like (article, word, meaning, pronunciation).
             article = (row[0] or "").ljust(col_w)[:col_w]
             word = (row[1] or "").ljust(col_w)[:col_w]
             meaning = (row[2] or "").ljust(col_w)[:col_w]

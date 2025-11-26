@@ -5,9 +5,9 @@ from argparse import RawTextHelpFormatter
 class ArgumentParsing:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
-            prog="LanguagePronunciationScraper",
+            prog="LanguagePronunciationRetriever",
             add_help=False,
-            description="Language Pronunciation Scraper",
+            description="Language Pronunciation Retriever",
             formatter_class=RawTextHelpFormatter,
         )
 
@@ -38,14 +38,22 @@ class ArgumentParsing:
             "-a",
             "--analyze",
             action="store_true",
-            help="         Analyze scraped data.                       (Requires -l)",
+            help="         Analyze retrieved data.                       (Requires -l)",
         )
 
         self.parser.add_argument(
-            "-s",
-            "--scrape",
+            "-x",
+            "--retrieve",
             action="store_true",
-            help="         Scrape data from the web.                   (Requires -l)",
+            help="         Retrieve data from the web.                   (Requires -l)",
+        )
+
+        self.parser.add_argument(
+            "-w",
+            "--word",
+            type=str,
+            metavar="",
+            help="[String] Specify a word to retrieve pronunciation for. (Requires -l)",
         )
 
         self.parser.add_argument(
@@ -56,7 +64,10 @@ class ArgumentParsing:
         )
 
         self.parser.add_argument(
-            "-b", "--backup", action="store_true", help="         Backup current data."
+            "-b",
+            "--backup",
+            action="store_true",
+            help="         Backup current data."
         )
 
         self.parser.add_argument(
@@ -105,7 +116,10 @@ class ArgumentParsing:
         )
 
         self.parser.add_argument(
-            "-d", "--debug", action="store_true", help="         Enable debug mode."
+            "-d",
+            "--debug",
+            action="store_true",
+            help="         Enable debug mode."
         )
 
         self.parser.add_argument(
@@ -148,6 +162,7 @@ class ArgumentParsing:
         )
 
         group.add_argument(
+            "-V",
             "--verbose",
             action="store_true",
             help="         Enable verbose output messages.",
