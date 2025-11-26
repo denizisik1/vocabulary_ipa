@@ -13,7 +13,7 @@ class ListLanguages:
             logging.info("No languages found in the database.")
             return []
 
-        logging.info("Available languages in the database:")
+        print("\nAvailable languages in the database:")
         for lang in languages:
             print(lang)
 
