@@ -59,7 +59,7 @@ if args.list_languages:
     except Exception as e:
         logging.error("Error listing languages: %s", e)
 
-if args.retrieve_pronunciation and args.word:
+if args.retrieve and args.word:
     try:
         retriever = RetrievePronunciation()
         retriever.retrieve_pronunciation(args.word)
