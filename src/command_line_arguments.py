@@ -1,159 +1,97 @@
-import argparse
-from argparse import RawTextHelpFormatter
+import typer
+import sys
+import signal
+import logging
+from typing import Optional
+from dotenv import load_dotenv
+from random_word import RandomWord
+from data_analyzer import DataAnalyzer
+from version_info import VersionInfo
+from list_languages import ListLanguages
+from retrieve_pronunciation import RetrievePronunciation
+
+logging.basicConfig(level=logging.INFO)
+
+def signal_handler(_sig, _frame):
+    logging.info("Program interrupted. Exiting gracefully...")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
+load_dotenv()
+
+app = typer.Typer(
+    name="LanguagePronunciationRetriever",
+    help="Language Pronunciation Retriever",
+    add_completion=False,
+)
 
 
-class ArgumentParsing:
-    # pylint: disable=too-few-public-methods
+@app.callback(invoke_without_command=True)
+def main(
+    ctx: typer.Context,
+    random: bool = typer.Option(False, "--random", "-r", help="Retrieve random word(s) with pronunciation. (Requires --language and --number)"),
+    language: Optional[str] = typer.Option(None, "--language", "-l", help="[String] Specify the language for the random word."),
+    number: Optional[int] = typer.Option(None, "--number", "-n", help="[Number] Number of random words to retrieve."),
+    analyze: bool = typer.Option(False, "--analyze", "-a", help="Analyze retrieved data. (Requires --language)"),
+    retrieve: bool = typer.Option(False, "--retrieve", "-x", help="Retrieve data from the web. (Requires --language)"),
+    word: Optional[str] = typer.Option(None, "--word", "-w", help="[String] Specify a word to retrieve pronunciation for. (Requires --language)"),
+    revert: bool = typer.Option(False, "--revert", "-R", help="Revert to previous data. (Requires --language)"),
+    backup: bool = typer.Option(False, "--backup", "-b", help="Backup current data."),
+    good: bool = typer.Option(False, "--good", "-g", help="Mark data as good. (Requires --language)"),
+    clean: bool = typer.Option(False, "--clean", "-C", help="Clean incomplete data. (Requires --language)"),
+    confirm_clean: bool = typer.Option(False, "--confirm-clean", "-c", help="Confirm and clean incomplete data. (Requires --language)"),
+    input_file: Optional[str] = typer.Option(None, "--input", "-f", help="[String] Input file for data. (Requires --language)"),
+    output: Optional[str] = typer.Option(None, "--output", "-o", help="[String] Output file for data. (Requires --language)"),
+    ipa_wikipedia: bool = typer.Option(False, "--ipa-wikipedia", "-i", help="Use IPA Wikipedia as the data source."),
+    debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug mode."),
+    version: bool = typer.Option(False, "--version", "-v", help="Show program version and exit."),
+    list_languages: bool = typer.Option(False, "--list-languages", "-e", help="List all available languages in the database."),
+    set_language: Optional[str] = typer.Option(None, "--set-language", "-k", help="[String] Set the default language for operations."),
+    set_number: Optional[int] = typer.Option(None, "--set-number", "-m", help="[Number] Set the default number of words to retrieve."),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress output messages."),
+    verbose: bool = typer.Option(False, "--verbose", "-V", help="Enable verbose output messages."),
+):
+    # If no arguments provided, show help
+    if ctx.invoked_subcommand is None and not any([random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_languages]):
+        typer.echo(ctx.get_help())
+        return
 
-    def __init__(self):
-        self.parser = argparse.ArgumentParser(
-            prog="LanguagePronunciationScraper",
-            add_help=False,
-            description="Language Pronunciation Scraper",
-            formatter_class=RawTextHelpFormatter,
-        )
+    if random and language and number:
+        try:
+            random_word_generator = RandomWord(language, number)
+            random_word_generator.get_random_word()
+        except ValueError as e:
+            logging.error("Value Error: %s", e)
 
-        self.parser.add_argument(
-            "-r",
-            "--random",
-            action="store_true",
-            help="         Retrieve random word(s) with pronunciation. (Requires -l and -n)",
-        )
+    if analyze and language:
+        try:
+            analyzer = DataAnalyzer(language)
+            analyzer.analyze_data()
+        except Exception as e:
+            logging.error("Error during data analysis: %s", e)
 
-        self.parser.add_argument(
-            "-l",
-            "--language",
-            type=str,
-            metavar="",
-            help="[String] Specify the language for the random word.",
-        )
+    if version:
+        try:
+            version_info = VersionInfo()
+            typer.echo(version_info.version)
+        except Exception as e:
+            logging.error("Error displaying version info: %s", e)
 
-        self.parser.add_argument(
-            "-n",
-            "--number",
-            type=int,
-            metavar="",
-            help="[Number] Number of random words to retrieve.",
-        )
+    if list_languages:
+        try:
+            language_lister = ListLanguages()
+            language_lister.list_languages()
+        except Exception as e:
+            logging.error("Error listing languages: %s", e)
 
-        self.parser.add_argument(
-            "-a",
-            "--analyze",
-            action="store_true",
-            help="         Analyze scraped data.                       (Requires -l)",
-        )
+    if retrieve and word:
+        try:
+            retriever = RetrievePronunciation()
+            retriever.retrieve_pronunciation(word)
+        except Exception as e:
+            logging.error("Error retrieving pronunciation: %s", e)
 
-        self.parser.add_argument(
-            "-s",
-            "--scrape",
-            action="store_true",
-            help="         Scrape data from the web.                   (Requires -l)",
-        )
 
-        self.parser.add_argument(
-            "-R",
-            "--revert",
-            action="store_true",
-            help="         Revert to previous data.                    (Requires -l)",
-        )
-
-        self.parser.add_argument(
-            "-b", "--backup", action="store_true", help="         Backup current data."
-        )
-
-        self.parser.add_argument(
-            "-g",
-            "--good",
-            action="store_true",
-            help="         Mark data as good.                          (Requires -l)",
-        )
-
-        self.parser.add_argument(
-            "-C",
-            "--clean",
-            action="store_true",
-            help="         Clean incomplete data.                      (Requires -l)",
-        )
-
-        self.parser.add_argument(
-            "-c",
-            "--confirm-clean",
-            action="store_true",
-            help="         Confirm and clean incomplete data.          (Requires -l)",
-        )
-
-        self.parser.add_argument(
-            "-f",
-            "--input",
-            type=str,
-            metavar="",
-            help="[String] Input file for data.                        (Requires -l)",
-        )
-
-        self.parser.add_argument(
-            "-o",
-            "--output",
-            type=str,
-            metavar="",
-            help="[String] Output file for data.                       (Requires -l)",
-        )
-
-        # Provide reference to https://en.wikipedia.org/wiki/Help:IPA/Standard_German
-        self.parser.add_argument(
-            "-i",
-            "--ipa-wikipedia",
-            action="store_true",
-            help="         Use IPA Wikipedia as the data source.",
-        )
-
-        self.parser.add_argument(
-            "-d", "--debug", action="store_true", help="         Enable debug mode."
-        )
-
-        self.parser.add_argument(
-            "-v",
-            "--version",
-            action="store_true",
-            help="         Show program version and exit.",
-        )
-
-        self.parser.add_argument(
-            "-e",
-            "--list-languages",
-            action="store_true",
-            help="         List all available languages in the database.",
-        )
-
-        self.parser.add_argument(
-            "-k",
-            "--set-language",
-            type=str,
-            metavar="",
-            help="[String] Set the default language for operations.",
-        )
-
-        self.parser.add_argument(
-            "-m",
-            "--set-number",
-            type=int,
-            metavar="",
-            help="[Number] Set the default number of words to retrieve.",
-        )
-
-        group = self.parser.add_mutually_exclusive_group()
-
-        group.add_argument(
-            "-q",
-            "--quiet",
-            action="store_true",
-            help="         Suppress output messages.",
-        )
-
-        group.add_argument(
-            "--verbose",
-            action="store_true",
-            help="         Enable verbose output messages.",
-        )
-
-    def parse_arguments(self):
-        return self.parser.parse_args()
+if __name__ == "__main__":
+    app()
