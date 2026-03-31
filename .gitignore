@@ -8,3 +8,4 @@ __pycache__/
 .env.copilot*
 
 .coverage
+.vscode/launch.json

@@ -30,6 +30,7 @@ app = typer.Typer(
 @app.callback(invoke_without_command=True)
 def main(
     ctx: typer.Context,
+    test: bool = typer.Option(False, "--test", "-t", help="Just a test run."),
     random: bool = typer.Option(False, "--random", "-r", help="Retrieve random word(s) with pronunciation. (Requires --language and --number)"),
     language: Optional[str] = typer.Option(None, "--language", "-l", help="[String] Specify the language for the random word."),
     number: Optional[int] = typer.Option(None, "--number", "-n", help="[Number] Number of random words to retrieve."),
@@ -53,9 +54,12 @@ def main(
     verbose: bool = typer.Option(False, "--verbose", "-V", help="Enable verbose output messages."),
 ):
     # If no arguments provided, show help
-    if ctx.invoked_subcommand is None and not any([random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_languages]):
+    if ctx.invoked_subcommand is None and not any([test, random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_languages]):
         typer.echo(ctx.get_help())
         return
+    
+    if test:
+        logging.info("This is a test run. No operations will be performed.")
 
     if random and language and number:
         try:
