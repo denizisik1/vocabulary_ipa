@@ -9,6 +9,7 @@ from data_analyzer import analyze_data_for_language
 from version_info import display_version
 from list_languages import list_languages
 from retrieve_pronunciation import retrieve_pronunciation
+from database import check_for_language
 
 logging.basicConfig(level=logging.INFO)
 
@@ -24,12 +25,14 @@ app = typer.Typer(
     name="LanguagePronunciationRetriever",
     help="Language Pronunciation Retriever",
     add_completion=False,
+    add_help_option=False,
 )
 
 
 @app.callback(invoke_without_command=True)
 def main(
     ctx: typer.Context,
+    help: bool = typer.Option(False, "--help", "-h", help="Show this message and exit."),
     test: bool = typer.Option(False, "--test", "-t", help="Just a test run."),
     random: bool = typer.Option(False, "--random", "-r", help="Retrieve random word(s) with pronunciation. (Requires --language and --number)"),
     language: Optional[str] = typer.Option(None, "--language", "-l", help="[String] Specify the language for the random word."),
@@ -54,12 +57,17 @@ def main(
     verbose: bool = typer.Option(False, "--verbose", "-V", help="Enable verbose output messages."),
 ):
     # If no arguments provided, show help
-    if ctx.invoked_subcommand is None and not any([test, random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_languages]):
+    if ctx.invoked_subcommand is None and not any([help, test, random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_languages]):
         typer.echo(ctx.get_help())
         return
+
+    if help:
+        typer.echo(ctx.get_help())
+        raise typer.Exit()
     
     if test:
-        logging.info("This is a test run. No operations will be performed.")
+        result = check_for_language(language)
+        print(f"Test check for language '{language}': {result}")
 
     if random and language and number:
         try:
