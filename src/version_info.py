@@ -3,10 +3,8 @@ import logging
 from dotenv import load_dotenv
 
 
-class VersionInfo:
-    def __init__(self):
-        load_dotenv()
-        self.version = os.getenv("VERSION")
-
-    def display(self):
-        logging.info("Version: %s", self.version)
+def display_version():
+    load_dotenv()
+    version = os.getenv("VERSION")
+    logging.info("Version: %s", version)
+    return version

@@ -4,11 +4,11 @@ import signal
 import logging
 from typing import Optional
 from dotenv import load_dotenv
-from random_word import RandomWord
-from data_analyzer import DataAnalyzer
-from version_info import VersionInfo
-from list_languages import ListLanguages
-from retrieve_pronunciation import RetrievePronunciation
+from random_word import get_random_word
+from data_analyzer import analyze_data_for_language
+from version_info import display_version
+from list_languages import list_languages
+from retrieve_pronunciation import retrieve_pronunciation
 
 logging.basicConfig(level=logging.INFO)
 
@@ -63,36 +63,31 @@ def main(
 
     if random and language and number:
         try:
-            random_word_generator = RandomWord(language, number)
-            random_word_generator.get_random_word()
+            get_random_word(language, number)
         except ValueError as e:
             logging.error("Value Error: %s", e)
 
     if analyze and language:
         try:
-            analyzer = DataAnalyzer(language)
-            analyzer.analyze_data()
+            analyze_data_for_language(language)
         except Exception as e:
             logging.error("Error during data analysis: %s", e)
 
     if version:
         try:
-            version_info = VersionInfo()
-            typer.echo(version_info.version)
+            typer.echo(display_version())
         except Exception as e:
             logging.error("Error displaying version info: %s", e)
 
     if list_languages:
         try:
-            language_lister = ListLanguages()
-            language_lister.list_languages()
+            list_languages()
         except Exception as e:
             logging.error("Error listing languages: %s", e)
 
-    if retrieve and word:
+    if retrieve and word and language:
         try:
-            retriever = RetrievePronunciation()
-            retriever.retrieve_pronunciation(word)
+            retrieve_pronunciation(language, word)
         except Exception as e:
             logging.error("Error retrieving pronunciation: %s", e)
 

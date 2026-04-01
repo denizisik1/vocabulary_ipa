@@ -1,14 +1,9 @@
-from database import PronunciationDatabase
+from database import check_for_language, analyze_data
 
 
-class DataAnalyzer:
-    def __init__(self, language):
-        self.language = language
-        self.db = PronunciationDatabase()
-
-    def analyze_data(self):
-        if not self.db.check_for_language(self.language):
-            raise ValueError(f"Language '{self.language}' not found in the database.")
-        count = self.db.analyze_data(self.language)
-        print("Number of rows without pronunciation %s: %d", self.language, count)
-        return self.db.analyze_data(self.language)
+def analyze_data_for_language(language):
+    if not check_for_language(language):
+        raise ValueError(f"Language '{language}' not found in the database.")
+    count = analyze_data(language)
+    print("Number of rows without pronunciation %s: %d", language, count)
+    return count
