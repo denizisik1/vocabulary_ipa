@@ -50,14 +50,13 @@ def main(
     ipa_wikipedia: bool = typer.Option(False, "--ipa-wikipedia", "-i", help="Use IPA Wikipedia as the data source."),
     debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug mode."),
     version: bool = typer.Option(False, "--version", "-v", help="Show program version and exit."),
-    list_languages: bool = typer.Option(False, "--list-languages", "-e", help="List all available languages in the database."),
+    list_langs: bool = typer.Option(False, "--list-languages", "-e", help="List all available languages in the database."),
     set_language: Optional[str] = typer.Option(None, "--set-language", "-k", help="[String] Set the default language for operations."),
     set_number: Optional[int] = typer.Option(None, "--set-number", "-m", help="[Number] Set the default number of words to retrieve."),
     quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress output messages."),
     verbose: bool = typer.Option(False, "--verbose", "-V", help="Enable verbose output messages."),
 ):
-    # If no arguments provided, show help
-    if ctx.invoked_subcommand is None and not any([help, test, random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_languages]):
+    if ctx.invoked_subcommand is None and not any([help, test, random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_langs]):
         typer.echo(ctx.get_help())
         return
 
@@ -87,7 +86,7 @@ def main(
         except Exception as e:
             logging.error("Error displaying version info: %s", e)
 
-    if list_languages:
+    if list_langs:
         try:
             list_languages()
         except Exception as e:
