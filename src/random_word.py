@@ -3,15 +3,6 @@ from database import check_for_language, retrieve_random_word
 
 
 def get_random_word(language, number):
-    """
-    Replace the existing get_random_word method with this version.
-
-    Behavior:
-    - Validates language exists.
-    - Retrieves up to `number` rows (the DB method may return one
-      row or an iterable of rows; we normalize to an iterable).
-    - Prints each row with fixed-width columns using ljust and safe None->"".
-    """
     if not check_for_language(language):
         raise ValueError(f"Language '{language}' not found in the database.")
 
