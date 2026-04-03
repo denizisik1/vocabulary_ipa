@@ -100,7 +100,6 @@ def main(  # pylint: disable=too-many-arguments, too-many-locals, too-many-posit
     word: Optional[str] = typer.Option(None, "--word", "-w", help="Specify a word to retrieve."),
     confirm_clean: bool = typer.Option(False, "--clean", "-c", help="clean incomplete data."),
     list_langs: bool = typer.Option(False, "--list-languages", "-e", help="List all languages."),
-
 ) -> None:
     actions = [
         test,
