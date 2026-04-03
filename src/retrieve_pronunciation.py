@@ -4,6 +4,8 @@ from playwright.sync_api import sync_playwright
 from dotenv import load_dotenv
 from database import store_pronunciation
 
+input("Installation is not allowed.")
+
 
 def retrieve_pronunciation(language, word):
     load_dotenv()
@@ -26,6 +28,7 @@ def retrieve_pronunciation(language, word):
 
 def _retrieve_pronunciation(base_url, element_name, word):
     with sync_playwright() as p:
+        input("Not async still, press Enter to continue...")
         browser = p.chromium.launch()
         page = browser.new_page()
         page.goto(f"{base_url}{word}")
@@ -36,6 +39,6 @@ def _retrieve_pronunciation(base_url, element_name, word):
             browser.close()
             return pronunciation
         except Exception as e:
-            logging.error(f"Error scraping pronunciation for '{word}': {e}")
+            logging.error(f"Error retrieving pronunciation for '{word}': {e}")
             browser.close()
             return None
