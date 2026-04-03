@@ -12,6 +12,6 @@ if __name__ == "__main__":
             print("The .env file differs from .env.example.")
         else:
             print("The .env file is identical to .env.example.")
+            app()
     else:
         print("One or both files (.env or .env.example) do not exist.")
-    app()
