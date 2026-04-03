@@ -10,8 +10,8 @@ def list_languages():
         logging.info("No languages found in the database.")
         return []
 
-    rich_table = importlib.import_module('rich.table')
-    rich_console = importlib.import_module('rich.console')
+    rich_table = importlib.import_module("rich.table")
+    rich_console = importlib.import_module("rich.console")
     console = rich_console.Console()
     table = rich_table.Table(title="Available Languages in the Database")
     table.add_column("Language", style="cyan", no_wrap=True)

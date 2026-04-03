@@ -57,8 +57,7 @@ def store_pronunciation(language, word, pronunciation):
     connection = get_connection()
     cursor = connection.cursor()
     cursor.execute(
-        f"UPDATE {language} SET pronunciation = ? WHERE word = ?",  # nosec
-        (pronunciation, word)
+        f"UPDATE {language} SET pronunciation = ? WHERE word = ?", (pronunciation, word)  # nosec
     )
     connection.commit()
     connection.close()

@@ -9,9 +9,11 @@ from database import check_for_language
 
 logging.basicConfig(level=logging.INFO)
 
+
 def signal_handler(_sig, _frame):
     logging.info("Program interrupted. Exiting gracefully...")
     sys.exit(0)
+
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -30,71 +32,127 @@ def main(
     ctx: typer.Context,
     help: bool = typer.Option(False, "--help", "-h", help="Show this message and exit."),
     test: bool = typer.Option(False, "--test", "-t", help="Just a test run."),
-    random: bool = typer.Option(False, "--random", "-r", help="Retrieve random word(s) with pronunciation. (Requires --language and --number)"),
-    language: Optional[str] = typer.Option(None, "--language", "-l", help="[String] Specify the language for the random word."),
-    number: Optional[int] = typer.Option(None, "--number", "-n", help="[Number] Number of random words to retrieve."),
-    analyze: bool = typer.Option(False, "--analyze", "-a", help="Analyze retrieved data. (Requires --language)"),
-    retrieve: bool = typer.Option(False, "--retrieve", "-x", help="Retrieve data from the web. (Requires --language)"),
-    word: Optional[str] = typer.Option(None, "--word", "-w", help="[String] Specify a word to retrieve pronunciation for. (Requires --language)"),
-    revert: bool = typer.Option(False, "--revert", "-R", help="Revert to previous data. (Requires --language)"),
+    random: bool = typer.Option(
+        False,
+        "--random",
+        "-r",
+        help="Retrieve random word(s) with pronunciation. (Requires --language and --number)",
+    ),
+    language: Optional[str] = typer.Option(
+        None, "--language", "-l", help="[String] Specify the language for the random word."
+    ),
+    number: Optional[int] = typer.Option(
+        None, "--number", "-n", help="[Number] Number of random words to retrieve."
+    ),
+    analyze: bool = typer.Option(
+        False, "--analyze", "-a", help="Analyze retrieved data. (Requires --language)"
+    ),
+    retrieve: bool = typer.Option(
+        False, "--retrieve", "-x", help="Retrieve data from the web. (Requires --language)"
+    ),
+    word: Optional[str] = typer.Option(
+        None,
+        "--word",
+        "-w",
+        help="[String] Specify a word to retrieve pronunciation for. (Requires --language)",
+    ),
+    revert: bool = typer.Option(
+        False, "--revert", "-R", help="Revert to previous data. (Requires --language)"
+    ),
     backup: bool = typer.Option(False, "--backup", "-b", help="Backup current data."),
-    good: bool = typer.Option(False, "--good", "-g", help="Mark data as good. (Requires --language)"),
-    clean: bool = typer.Option(False, "--clean", "-C", help="Clean incomplete data. (Requires --language)"),
-    confirm_clean: bool = typer.Option(False, "--confirm-clean", "-c", help="Confirm and clean incomplete data. (Requires --language)"),
-    input_file: Optional[str] = typer.Option(None, "--input", "-f", help="[String] Input file for data. (Requires --language)"),
-    output: Optional[str] = typer.Option(None, "--output", "-o", help="[String] Output file for data. (Requires --language)"),
-    ipa_wikipedia: bool = typer.Option(False, "--ipa-wikipedia", "-i", help="Use IPA Wikipedia as the data source."),
+    good: bool = typer.Option(
+        False, "--good", "-g", help="Mark data as good. (Requires --language)"
+    ),
+    clean: bool = typer.Option(
+        False, "--clean", "-C", help="Clean incomplete data. (Requires --language)"
+    ),
+    confirm_clean: bool = typer.Option(
+        False,
+        "--confirm-clean",
+        "-c",
+        help="Confirm and clean incomplete data. (Requires --language)",
+    ),
+    input_file: Optional[str] = typer.Option(
+        None, "--input", "-f", help="[String] Input file for data. (Requires --language)"
+    ),
+    output: Optional[str] = typer.Option(
+        None, "--output", "-o", help="[String] Output file for data. (Requires --language)"
+    ),
+    ipa_wikipedia: bool = typer.Option(
+        False, "--ipa-wikipedia", "-i", help="Use IPA Wikipedia as the data source."
+    ),
     debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug mode."),
     version: bool = typer.Option(False, "--version", "-v", help="Show program version and exit."),
-    list_langs: bool = typer.Option(False, "--list-languages", "-e", help="List all available languages in the database."),
-    set_language: Optional[str] = typer.Option(None, "--set-language", "-k", help="[String] Set the default language for operations."),
-    set_number: Optional[int] = typer.Option(None, "--set-number", "-m", help="[Number] Set the default number of words to retrieve."),
+    list_langs: bool = typer.Option(
+        False, "--list-languages", "-e", help="List all available languages in the database."
+    ),
+    set_language: Optional[str] = typer.Option(
+        None, "--set-language", "-k", help="[String] Set the default language for operations."
+    ),
+    set_number: Optional[int] = typer.Option(
+        None, "--set-number", "-m", help="[Number] Set the default number of words to retrieve."
+    ),
     quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress output messages."),
     verbose: bool = typer.Option(False, "--verbose", "-V", help="Enable verbose output messages."),
 ):
-    if ctx.invoked_subcommand is None and not any([help, test, random, analyze, retrieve, revert, backup, good, clean, confirm_clean, version, list_langs]):
+    if ctx.invoked_subcommand is None and not any(
+        [
+            help,
+            test,
+            random,
+            analyze,
+            retrieve,
+            revert,
+            backup,
+            good,
+            clean,
+            confirm_clean,
+            version,
+            list_langs,
+        ]
+    ):
         typer.echo(ctx.get_help())
         return
 
     if help:
         typer.echo(ctx.get_help())
         raise typer.Exit()
-    
+
     if test:
         result = check_for_language(language)
         print(f"Test check for language '{language}': {result}")
 
     if random and language and number:
         try:
-            random_word = importlib.import_module('random_word')
+            random_word = importlib.import_module("random_word")
             random_word.get_random_word(language, number)
         except ValueError as e:
             logging.error("Value Error: %s", e)
 
     if analyze and language:
         try:
-            data_analyzer = importlib.import_module('data_analyzer')
+            data_analyzer = importlib.import_module("data_analyzer")
             data_analyzer.analyze_data_for_language(language)
         except Exception as e:
             logging.error("Error during data analysis: %s", e)
 
     if version:
         try:
-            version_info = importlib.import_module('version_info')
+            version_info = importlib.import_module("version_info")
             typer.echo(version_info.display_version())
         except Exception as e:
             logging.error("Error displaying version info: %s", e)
 
     if list_langs:
         try:
-            list_languages_module = importlib.import_module('list_languages')
+            list_languages_module = importlib.import_module("list_languages")
             list_languages_module.list_languages()
         except Exception as e:
             logging.error("Error listing languages: %s", e)
 
     if retrieve and word and language:
         try:
-            retrieve_pronunciation_module = importlib.import_module('retrieve_pronunciation')
+            retrieve_pronunciation_module = importlib.import_module("retrieve_pronunciation")
             retrieve_pronunciation_module.retrieve_pronunciation(language, word)
         except Exception as e:
             logging.error("Error retrieving pronunciation: %s", e)

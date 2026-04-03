@@ -1,12 +1,11 @@
-# Entry point for the application
 from command_line_arguments import app
 
 if __name__ == "__main__":
     import filecmp
     import os
 
-    env_file = '.env'
-    env_example_file = '.env.example'
+    env_file = ".env"
+    env_example_file = ".env.example"
 
     if os.path.exists(env_file) and os.path.exists(env_example_file):
         if not filecmp.cmp(env_file, env_example_file):

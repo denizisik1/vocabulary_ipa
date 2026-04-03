@@ -2,6 +2,4 @@
 __pycache__/
 *.log
 .env
-.env.copilot*
 .coverage
-.vscode/launch.json

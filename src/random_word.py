@@ -16,8 +16,8 @@ def get_random_word(language, number):
     if isinstance(rows, tuple) and (len(rows) == 0 or not isinstance(rows[0], (list, tuple))):
         rows = [rows]
 
-    rich_table = importlib.import_module('rich.table')
-    rich_console = importlib.import_module('rich.console')
+    rich_table = importlib.import_module("rich.table")
+    rich_console = importlib.import_module("rich.console")
     console = rich_console.Console()
     table = rich_table.Table(title=f"Random Words for {language.capitalize()}")
     table.add_column("Article", style="cyan", no_wrap=True)
