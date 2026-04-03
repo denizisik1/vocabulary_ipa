@@ -85,21 +85,51 @@ def handle_retrieve(language: Optional[str], word: Optional[str]) -> None:
 @app.callback(invoke_without_command=True)
 def main(  # pylint: disable=too-many-arguments, too-many-locals, too-many-positional-arguments
     ctx: typer.Context,
-    show_help: bool = typer.Option(False, "--help", "-h", help="Show this message and exit."),
-    retrieve: bool = typer.Option(False, "--retrieve", "-x", help="Retrieve data from the web."),
-    clean: bool = typer.Option(False, "--clean", "-C", help="Clean incomplete data."),
-    backup: bool = typer.Option(False, "--backup", "-b", help="Backup current data."),
-    analyze: bool = typer.Option(False, "--analyze", "-a", help="Analyze retrieved data."),
-    good: bool = typer.Option(False, "--good", "-g", help="Mark data as good."),
-    version: bool = typer.Option(False, "--version", "-v", help="Show program version and exit."),
-    revert: bool = typer.Option(False, "--revert", "-R", help="Revert to previous data."),
-    test: bool = typer.Option(False, "--test", "-t", help="Just a test run."),
-    random: bool = typer.Option(False, "--random", "-r", help="Retrieve random word(s)."),
-    language: Optional[str] = typer.Option(None, "--language", "-l", help="Specify the language."),
-    number: Optional[int] = typer.Option(None, "--number", "-n", help="Number of random words."),
-    word: Optional[str] = typer.Option(None, "--word", "-w", help="Specify a word to retrieve."),
-    confirm_clean: bool = typer.Option(False, "--clean", "-c", help="clean incomplete data."),
-    list_langs: bool = typer.Option(False, "--list-languages", "-e", help="List all languages."),
+    show_help: bool = typer.Option(
+        False, "--help", "-h", help="Show this help message and exit the program."
+    ),
+    retrieve: bool = typer.Option(
+        False, "--retrieve", "-x", help="Retrieve Pronunciation from the web."
+    ),
+    clean: bool = typer.Option(
+        False, "--clean", "-C", help="Clean incomplete data from the database."
+    ),
+    backup: bool = typer.Option(
+        False, "--backup", "-b", help="Backup current data and print its location."
+    ),
+    analyze: bool = typer.Option(
+        False, "--analyze", "-a", help="Analyze retrieved data and show output."
+    ),
+    good: bool = typer.Option(
+        False, "--good", "-g", help="Mark current data as good and ready for use."
+    ),
+    version: bool = typer.Option(
+        False, "--version", "-v", help="Show program version and exit the program."
+    ),
+    revert: bool = typer.Option(
+        False, "--revert", "-R", help="Make another backup and revert to the last good data."
+    ),
+    test: bool = typer.Option(
+        False, "--test", "-t", help="Just a test run. Only used during development."
+    ),
+    random: bool = typer.Option(
+        False, "--random", "-r", help="Retrieve random number of word(s) for a language."
+    ),
+    language: Optional[str] = typer.Option(
+        None, "--language", "-l", help="Specify the language to be used for the operation."
+    ),
+    number: Optional[int] = typer.Option(
+        None, "--number", "-n", help="Specify the number of random words."
+    ),
+    word: Optional[str] = typer.Option(
+        None, "--word", "-w", help="Specify a word to retrieve pronunciation for."
+    ),
+    confirm_clean: bool = typer.Option(
+        False, "--purge", "-c", help="Clean incomplete data from the database."
+    ),
+    list_langs: bool = typer.Option(
+        False, "--list-languages", "-e", help="List all available languages in the database."
+    ),
 ) -> None:
     actions = [
         test,

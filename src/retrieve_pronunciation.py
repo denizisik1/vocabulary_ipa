@@ -28,7 +28,7 @@ def retrieve_pronunciation(language, word):
 
 def _retrieve_pronunciation(base_url, element_name, word):
     with sync_playwright() as p:
-        input("Not async still, press Enter to continue...")
+        input("Not async still can help with performance/speed. Press Enter to continue...")
         browser = p.chromium.launch()
         page = browser.new_page()
         page.goto(f"{base_url}{word}")
