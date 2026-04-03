@@ -16,14 +16,14 @@ def retrieve_pronunciation(language, word):
 
     pronunciation = _retrieve_pronunciation(base_url, base_url_element_name, word)
     if not pronunciation:
-        logging.info(f"Primary source failed for '{word}', trying backup source.")
+        logging.info("Primary source failed for '%s'. Attempting backup source...", word)
         pronunciation = _retrieve_pronunciation(backup_base_url, backup_base_url_element_name, word)
 
     if pronunciation:
-        logging.info(f"Pronunciation for '{word}': {pronunciation}")
+        logging.info("Pronunciation for '%s': %s", word, pronunciation)
         store_pronunciation(language, word, pronunciation)
     else:
-        logging.warning(f"Pronunciation for '{word}' not found in both sources.")
+        logging.warning("Pronunciation for '%s' not found in both sources.", word)
 
 
 def _retrieve_pronunciation(base_url, element_name, word):
@@ -38,7 +38,7 @@ def _retrieve_pronunciation(base_url, element_name, word):
             pronunciation = element.inner_text().strip()
             browser.close()
             return pronunciation
-        except Exception as e:
-            logging.error(f"Error retrieving pronunciation for '{word}': {e}")
+        except Exception as e:  # pylint: disable=broad-except
+            logging.error("Error retrieving pronunciation for '%s': %s", word, e)
             browser.close()
             return None

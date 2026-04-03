@@ -4,11 +4,11 @@ if __name__ == "__main__":
     import filecmp
     import os
 
-    env_file = ".env"
-    env_example_file = ".env.example"
+    ENV_FILE = ".env"
+    ENV_EXAMPLE_FILE = ".env.example"
 
-    if os.path.exists(env_file) and os.path.exists(env_example_file):
-        if not filecmp.cmp(env_file, env_example_file):
+    if os.path.exists(ENV_FILE) and os.path.exists(ENV_EXAMPLE_FILE):
+        if not filecmp.cmp(ENV_FILE, ENV_EXAMPLE_FILE):
             print("The .env file differs from .env.example.")
         else:
             print("The .env file is identical to .env.example.")
