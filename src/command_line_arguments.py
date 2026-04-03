@@ -2,13 +2,9 @@ import typer
 import sys
 import signal
 import logging
+import importlib
 from typing import Optional
 from dotenv import load_dotenv
-from random_word import get_random_word
-from data_analyzer import analyze_data_for_language
-from version_info import display_version
-from list_languages import list_languages
-from retrieve_pronunciation import retrieve_pronunciation
 from database import check_for_language
 
 logging.basicConfig(level=logging.INFO)
@@ -70,31 +66,36 @@ def main(
 
     if random and language and number:
         try:
-            get_random_word(language, number)
+            random_word = importlib.import_module('random_word')
+            random_word.get_random_word(language, number)
         except ValueError as e:
             logging.error("Value Error: %s", e)
 
     if analyze and language:
         try:
-            analyze_data_for_language(language)
+            data_analyzer = importlib.import_module('data_analyzer')
+            data_analyzer.analyze_data_for_language(language)
         except Exception as e:
             logging.error("Error during data analysis: %s", e)
 
     if version:
         try:
-            typer.echo(display_version())
+            version_info = importlib.import_module('version_info')
+            typer.echo(version_info.display_version())
         except Exception as e:
             logging.error("Error displaying version info: %s", e)
 
     if list_langs:
         try:
-            list_languages()
+            list_languages_module = importlib.import_module('list_languages')
+            list_languages_module.list_languages()
         except Exception as e:
             logging.error("Error listing languages: %s", e)
 
     if retrieve and word and language:
         try:
-            retrieve_pronunciation(language, word)
+            retrieve_pronunciation_module = importlib.import_module('retrieve_pronunciation')
+            retrieve_pronunciation_module.retrieve_pronunciation(language, word)
         except Exception as e:
             logging.error("Error retrieving pronunciation: %s", e)
 
