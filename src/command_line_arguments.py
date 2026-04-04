@@ -82,6 +82,46 @@ def handle_retrieve(language: Optional[str], word: Optional[str]) -> None:
         logging.error("Error importing retrieve_pronunciation: %s", err)
 
 
+def validate_flag_dependencies(
+    *,
+    retrieve: bool,
+    random: bool,
+    analyze: bool,
+    test: bool,
+    clean: bool,
+    confirm_clean: bool,
+    language: Optional[str],
+    number: Optional[int],
+    word: Optional[str],
+) -> list[str]:
+    errors: list[str] = []
+
+    if retrieve:
+        if not language:
+            errors.append("--retrieve requires --language/-l")
+        if not word:
+            errors.append("--retrieve requires --word/-w")
+
+    if random:
+        if not language:
+            errors.append("--random requires --language/-l")
+        if number is None:
+            errors.append("--random requires --number/-n")
+        elif number <= 0:
+            errors.append("--number/-n must be a positive integer when using --random")
+
+    if analyze and not language:
+        errors.append("--analyze requires --language/-l")
+
+    if test and not language:
+        errors.append("--test requires --language/-l")
+
+    if confirm_clean and not clean:
+        errors.append("--purge/-c requires --clean/-C")
+
+    return errors
+
+
 @app.callback(invoke_without_command=True)
 def main(  # pylint: disable=too-many-arguments, too-many-locals, too-many-positional-arguments
     ctx: typer.Context,
@@ -152,6 +192,22 @@ def main(  # pylint: disable=too-many-arguments, too-many-locals, too-many-posit
     if show_help:
         typer.echo(ctx.get_help())
         raise typer.Exit()
+
+    validation_errors = validate_flag_dependencies(
+        retrieve=retrieve,
+        random=random,
+        analyze=analyze,
+        test=test,
+        clean=clean,
+        confirm_clean=confirm_clean,
+        language=language,
+        number=number,
+        word=word,
+    )
+    if validation_errors:
+        for err in validation_errors:
+            typer.echo(f"Error: {err}")
+        raise typer.Exit(code=2)
 
     if test:
         handle_test(language)
