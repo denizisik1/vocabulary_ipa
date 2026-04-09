@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Vocabulary IPA - Language Pronunciation Retriever</string>
+  </property>
+  <property name="styleSheet">
+   <string>QMainWindow {
+    background-color: #2b2b2b;
+    color: #ffffff;
+}
+
+QTabWidget::pane {
+    border: 1px solid #555555;
+    background-color: #3a3a3a;
+}
+
+QTabBar::tab {
+    background-color: #4a4a4a;
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid #555555;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background-color: #5a5a5a;
+    border-bottom: 2px solid #0078d4;
+}
+
+QTabBar::tab:hover {
+    background-color: #505050;
+}
+
+QWidget {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+
+QLabel {
+    color: #ffffff;
+}
+
+QLineEdit, QTextEdit, QComboBox, QSpinBox {
+    background-color: #4a4a4a;
+    color: #ffffff;
+    border: 1px solid #666666;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+QLineEdit:focus, QTextEdit:focus, QComboBox:focus, QSpinBox:focus {
+    border: 1px solid #0078d4;
+}
+
+QPushButton {
+    background-color: #0078d4;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+}
+
+QPushButton:hover {
+    background-color: #106ebe;
+}
+
+QPushButton:pressed {
+    background-color: #005a9e;
+}
+
+QStatusBar {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border-top: 1px solid #555555;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="languagesTab">
+       <attribute name="title">
+        <string>Languages</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="randomWordsTab">
+       <attribute name="title">
+        <string>Random Words</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="retrieveTab">
+       <attribute name="title">
+        <string>Retrieve Pronunciation</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="analyzeTab">
+       <attribute name="title">
+        <string>Analyze</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="aboutTab">
+       <attribute name="title">
+        <string>About</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
